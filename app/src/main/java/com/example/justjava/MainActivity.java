@@ -38,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         cbChocolate = findViewById(R.id.cbChocolate);
         tvPrice= findViewById(R.id.tvPrice);
 
-        tvPrice.setText("Precios: \nCafe=5$ \nWhippedCream=1$ \nChocolate=2$");
+        tvPrice.setText("Precios: \nCafe=5$ \nCrema de Moka=1$ \nChocolate=2$");
+        tvQuantityCount.setText(""+quantity);
     }
 
     public void submitOrder(View view) {
@@ -48,25 +49,41 @@ public class MainActivity extends AppCompatActivity {
         boolean hasWhippedCream = cbWhippedCream.isChecked();
         boolean hasChocolate = cbChocolate.isChecked();
 
+        String WhippedCream;
+        String Chocolate;
+
         int price = calculatePrice(hasChocolate, hasWhippedCream);
-        String priceMessage = createOrderSummary(price, hasWhippedCream, hasChocolate, name);
+
+        if (hasWhippedCream=true){
+            WhippedCream="Si";
+        }else{
+            WhippedCream="No";
+        }
+
+        if (hasChocolate=true){
+            Chocolate="Si";
+        }else{
+            Chocolate="No";
+        }
+
+        String priceMessage = createOrderSummary(price, WhippedCream, Chocolate, name);
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Just java order for " + name);
+        intent.putExtra(Intent.EXTRA_SUBJECT, "La orden de Cafe es para " + name);
         intent.putExtra(Intent.EXTRA_TEXT, priceMessage);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
     }
 
-    private String createOrderSummary(int price, boolean hasWhippedCream, boolean hasChocolate, String name) {
+    private String createOrderSummary(int price, String hasWhippedCream, String hasChocolate, String name) {
         String priceMessage = "Nombre: " + name;
         priceMessage = priceMessage + "\nDesea Crema de Moka? " + hasWhippedCream;
         priceMessage = priceMessage + "\nDesea Chocolate? " + hasChocolate;
-        priceMessage = priceMessage + "\nCantidad de cafe: " + quantity + ".";
-        priceMessage = priceMessage + "\nEl precio es: $" + price + ".";
-        priceMessage = priceMessage + "\nGracias.";
+        priceMessage = priceMessage + "\nCantidad de cafe: " + quantity;
+        priceMessage = priceMessage + "\nEl precio es: $" + price;
+        priceMessage = priceMessage + "\nMuchas Gracias por su compra.";
         return priceMessage;
     }
 
@@ -86,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void increment(View view) {
         if (quantity == 100) {
-            Toast.makeText(this, "you cannot have more than 100 coffee", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No es posible pedir mas de 100 cafes", Toast.LENGTH_SHORT).show();
         } else {
             quantity = quantity + 1;
             tvQuantityCount.setText("" + quantity);
@@ -95,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void decrement(View view) {
         if (quantity == 1) {
-            Toast.makeText(this, "you cannot have more than 1 coffee", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No es posible pedir menos de 1 cafe", Toast.LENGTH_SHORT).show();
             return;
         }
         quantity = quantity - 1;

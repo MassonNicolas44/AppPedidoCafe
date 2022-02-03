@@ -14,15 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 public class MainActivity extends AppCompatActivity {
-    int quantity = 2;
+    int quantity = 1;
 
+    private TextView tvPrice;
     private TextView tvQuantityCount;
     private EditText etvName;
     private CheckBox cbWhippedCream;
     private CheckBox cbChocolate;
-    private Button btDown;
-    private Button btUp;
-    private Button btOrder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setComponent();
-
     }
 
     private void setComponent() {
@@ -38,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         etvName = findViewById(R.id.etvName);
         cbWhippedCream = findViewById(R.id.cbWhippedCream);
         cbChocolate = findViewById(R.id.cbChocolate);
+        tvPrice= findViewById(R.id.tvPrice);
+
+        tvPrice.setText("Precios: \nCafe=5$ \nWhippedCream=1$ \nChocolate=2$");
     }
 
     public void submitOrder(View view) {
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private int calculatePrice(boolean hasChocolate, boolean hasWhippedCream) {
-        int basePrice = 0;
+        int basePrice = 5;
         if (hasChocolate) {
             basePrice = basePrice + 2;
         }
